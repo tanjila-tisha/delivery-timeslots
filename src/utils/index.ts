@@ -40,17 +40,19 @@ export const removeDeliveryInfo = () => localStorage.removeItem("deliveryInfo");
 
 // Formating dates for select field
 export const getDates = (availableDeliveryDates: string[]): MenuItem[] =>
-  availableDeliveryDates?.map((availableDeliveryDate) => {
-    return { value: availableDeliveryDate, id: availableDeliveryDate };
-  });
+  availableDeliveryDates
+    ?.map((availableDeliveryDate) => {
+      return { value: availableDeliveryDate, id: availableDeliveryDate };
+    })
+    .sort((a, b) => a.value.localeCompare(b.value));
 
 // Formating time slots for select field
 export const getTimeSlots = (
   availableTimeSlots: TimeSlot[],
   homeDelivery: boolean
 ): MenuItem[] => {
-  const timeSlots = availableTimeSlots?.reduce(
-    (initialSlot: MenuItem[], availableTimeSlot: TimeSlot) => {
+  const timeSlots = availableTimeSlots
+    ?.reduce((initialSlot: MenuItem[], availableTimeSlot: TimeSlot) => {
       if (homeDelivery && availableTimeSlot.inHomeAvailable === false)
         return initialSlot;
 
@@ -59,9 +61,8 @@ export const getTimeSlots = (
         id: availableTimeSlot.deliveryTimeId,
       });
       return initialSlot;
-    },
-    []
-  );
+    }, [])
+    .sort((a, b) => a.value.localeCompare(b.value));
   return timeSlots;
 };
 
