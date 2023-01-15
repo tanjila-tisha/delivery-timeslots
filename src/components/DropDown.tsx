@@ -1,35 +1,40 @@
-
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
+import { InputLabel, MenuItem as MuiMenuItem } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { MenuItem } from "../types";
 
 interface DropDownProps {
-  handleChange:  (value: string)=>void;
+  handleChange: (value: string) => void;
   selectedValue: string;
-  menuItems: string[];
+  menuItems: MenuItem[];
   label: string;
 }
 
-const DropDown = ({handleChange, selectedValue, menuItems, label} : DropDownProps ) =>{
-    return (
-        <FormControl variant="standard" sx={{ m: 2, minWidth: 200 }}>
-        <InputLabel>{label}</InputLabel>
-        <Select
-          value={selectedValue}
-          onChange={(event: SelectChangeEvent) => handleChange(event.target.value)}
-          label="Select Delivery Date"
-        >
-          <MenuItem disabled value="">
-            <em>{label}</em>
-          </MenuItem>
-          {menuItems.map((item: string) => (
-            <MenuItem value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    )
-}
-export default DropDown
+const DropDown = ({
+  handleChange,
+  selectedValue,
+  menuItems,
+  label,
+}: DropDownProps) => {
+  return (
+    <>
+      <InputLabel>{label}</InputLabel>
+      <Select
+        value={selectedValue}
+        onChange={(event: SelectChangeEvent) =>
+          handleChange(event.target.value)
+        }
+        label="Select Delivery Date"
+      >
+        <MuiMenuItem disabled value="">
+          <em>{label}</em>
+        </MuiMenuItem>
+        {menuItems.map((item: MenuItem, index) => (
+          <MuiMenuItem value={item.id} key={item.id}>
+            {item.value}
+          </MuiMenuItem>
+        ))}
+      </Select>
+    </>
+  );
+};
+export default DropDown;
